@@ -294,7 +294,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/N4si/DevSecOps-Project.git'
+                git branch: 'main', url: 'https://github.com/jpr-pa/netflix-project.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -332,28 +332,33 @@ pipeline{
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build --build-arg TMDB_V3_API_KEY=<yourapikey> -t netflix ."
-                       sh "docker tag netflix nasi101/netflix:latest "
-                       sh "docker push nasi101/netflix:latest "
+                       sh "docker build --build-arg TMDB_V3_API_KEY=2a5d9e228ca1876fbb7906f7be0d5053 -t netflix ."
+                       sh "docker tag netflix jaipal9669/netflix:latest "
+                       sh "docker push jaipal9669/netflix:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image nasi101/netflix:latest > trivyimage.txt" 
+                sh "trivy image jaipal9669/netflix:latest > trivyimage.txt" 
             }
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name netflix -p 8081:80 nasi101/netflix:latest'
+                sh 'docker run -d --name netflix -p 8081:80 jaipal9669/netflix:latest'
             }
         }
     }
 }
 
 
-If you get docker login failed errorr
+```
+
+
+If you get docker login failed error
+
+```
 
 sudo su
 sudo usermod -aG docker jenkins
